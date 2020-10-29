@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
     this.dataService.getGlobalData()
       .subscribe(
         {
-          next : (result)=>{
+          next : (result) => {
             // console.log(result);
             this.globalData = result;
 

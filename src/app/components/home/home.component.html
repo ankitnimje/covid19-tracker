@@ -2,7 +2,7 @@
   <div class="ui text loader">Loading</div>
 </div>.
 
-<div class="jumbotron bg-light text-center">
+<div class="jumbotron bg-primary text-center">
     <h1 class="display-4">Coronavirus Tracker</h1>
     <hr>
     <app-dashboard-card
@@ -11,44 +11,42 @@
       [totalRecovered] = 'totalRecovered'
       [totalDeaths] = 'totalDeaths'
     ></app-dashboard-card>
+    <hr>
 </div>
 
 <hr>
 
-<div class="ui form">
-  <div class="inline fields">
-    <label for="fruit">Select case type:</label>
-    <div class="field">
-      <div class="ui radio checkbox">
-        <input type="radio" id="c" #c value="c" (click)='updateChart(c)' name="casetype" checked="" tabindex="0" class="hidden">
-        <label for="c" >Confirmed</label>
-      </div>
+<!-- <div class="ui form">
+  <div class="row inline form-group">
+    <div class="col-md-1"></div>
+    <div class="col-md-3">
+      <label for="fruit" class="form-control-lg">Select case type:</label>
     </div>
-    <div class="field">
-      <div class="ui radio checkbox">
-        <input type="radio" id="a" #a value="a" (click)='updateChart(a)' name="casetype" tabindex="0" class="hidden">
-        <label for="a">Active</label>
-      </div>
+    <div class="col-md-2 custom-control custom-radio form-control-lg">
+      <input type="radio" id="c" #c value="c" (click)='updateChart(c)' name="casetype" checked="" tabindex="0" class="hidden custom-control-input">
+      <label for="c" class="custom-control-label h3">Confirmed</label>
     </div>
-    <div class="field">
-      <div class="ui radio checkbox">
-        <input type="radio" id="d" #d value="d" (click)='updateChart(d)' name="casetype" tabindex="0" class="hidden">
-        <label for="d">Deaths</label>
-      </div>
+    <div class="col-md-2 custom-control custom-radio">
+      <input type="radio" id="a" #a value="a" (click)='updateChart(a)' name="casetype" tabindex="0" class="hidden custom-control-input">
+      <label for="a" class="custom-control-label">Active</label>
     </div>
-    <div class="field">
-      <div class="ui radio checkbox">
-        <input type="radio" id="r" #r value="r" (click)='updateChart(r)' name="casetype" tabindex="0" class="hidden">
-        <label for="r">Recovered</label>
-      </div>
+    <div class="col-md-2 custom-control custom-radio">
+      <input type="radio" id="d" #d value="d" (click)='updateChart(d)' name="casetype" tabindex="0" class="hidden custom-control-input">
+      <label for="d" class="custom-control-label">Deaths</label>
+    </div>
+    <div class="col-md-2 custom-control custom-radio">
+        <input type="radio" id="r" #r value="r" (click)='updateChart(r)' name="casetype" tabindex="0" class="hidden custom-control-input">
+        <label for="r" class="custom-control-label">Recovered</label>
     </div>
   </div>
-</div>
+</div> -->
+
+
 
 <!--  -->
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-6 p-1">
     <google-chart
       [type]='chart.PieChart'
       [data]='dataTable'
@@ -65,3 +63,6 @@
       style="width: 100%"></google-chart>
   </div>
 </div>
+<footer class="mt-5 p-3 bg-primary text-center">
+  GitHub Finder &copy;
+</footer>
