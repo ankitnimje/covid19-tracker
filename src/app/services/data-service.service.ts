@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators'
+import { catchError, map } from 'rxjs/operators'
 import { GlobalDataSummary } from '../models/global-data';
 import { DateWiseData } from '../models/date-wise-data';
 
@@ -10,15 +10,43 @@ import { DateWiseData } from '../models/date-wise-data';
 
 export class DataServiceService {
 
-  private globalDataUrl = `https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/10-26-2020.csv`;
+  private baseUrl = `https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/`;
+  private globalDataUrl = ``;
+  private extension = '.csv';
+  dd;
+  mm;
+  yyyy;
+
+  getDate(date: number) {
+    if(date < 10) {
+      return '0' + date;
+    }
+    return date;
+  }
+
   private dateWiseDataUrl = `https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv`;
 
-  constructor( private http: HttpClient ) { }
+  constructor( private http: HttpClient ) {
+    let today = new Date();
+    this.dd = String(today.getDate()).padStart(2, '0');
+    this.mm = String(today.getMonth() + 1).padStart(2, '0');
+    this.yyyy = today.getFullYear();
+
+    let todayUrl = this.getDate(this.mm) + '-' + this.getDate(this.dd) + '-' + this.yyyy;
+
+    console.log(todayUrl);
+
+
+    this.globalDataUrl = `${this.baseUrl}${todayUrl}${this.extension}`;
+
+
+   }
 
   getDateWiseData() {
     return this.http.get(this.dateWiseDataUrl, { responseType: 'text' })
       .pipe(map(result => {
         let rows = result.split('\n');
+
         // console.log(rows);
         let mainData = {};
         let header = rows[0];
@@ -79,6 +107,15 @@ export class DataServiceService {
         // console.log(raw);
 
         return <GlobalDataSummary[]>Object.values(raw);
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if(error.status == 404) {
+          this.dd = this.dd - 1;
+          let todayUrl = this.getDate(this.mm) + '-' + this.getDate(this.dd) + '-' + this.yyyy;
+          this.globalDataUrl = `${this.baseUrl}${todayUrl}${this.extension}`;
+
+          return this.getGlobalData();
+        }
       })
     )
   }

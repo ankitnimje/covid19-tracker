@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 })
 export class CountriesComponent implements OnInit {
 
-  data : GlobalDataSummary[];
+  data : any;
   countries : string[] = [];
   totalConfirmed = 0;
   totalActive = 0;
@@ -46,7 +46,7 @@ export class CountriesComponent implements OnInit {
           // this.updateChart();
         })
       ),
-      this.service.getGlobalData().pipe(map(result=>{
+      this.service.getGlobalData().pipe(map( result => {
         this.data = result;
         this.data.forEach(cs=>{
           this.countries.push(cs.country)
