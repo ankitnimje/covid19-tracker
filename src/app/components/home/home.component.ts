@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   totalRecovered = 0;
   dataTable = [];
   globalData : GlobalDataSummary[];
+  loading = true;
 
   chart = {
     PieChart : "PieChart",
@@ -50,9 +51,13 @@ export class HomeComponent implements OnInit {
             });
 
             this.initChart('c');
+          },
+          complete: () => {
+            this.loading = false;
           }
         }
       )
+
   }
 
   initChart(caseType : string) {

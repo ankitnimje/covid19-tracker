@@ -1,4 +1,8 @@
-.<div class="jumbotron bg-light text-center">
+<div class="ui dimmer" [class.active]='loading'>
+  <div class="ui text loader">Loading</div>
+</div>.
+
+<div class="jumbotron bg-light text-center">
     <h1 class="display-4">Coronavirus Tracker</h1>
     <hr>
     <app-dashboard-card
