@@ -12,7 +12,22 @@ export class HomeComponent implements OnInit {
   totalActive = 0;
   totalDeaths = 0;
   totalRecovered = 0;
+  dataTable = [];
   globalData : GlobalDataSummary[];
+
+  chart = {
+    PieChart : "PieChart",
+    ColumnChart : "ColumnChart",
+    height: 500,
+    options: {
+      animation: {
+        duration: 1000,
+        easing: 'out'
+      },
+      is3D: true
+    }
+  }
+
 
   constructor(private dataService: DataServiceService) { }
 
@@ -21,7 +36,7 @@ export class HomeComponent implements OnInit {
       .subscribe(
         {
           next : (result)=>{
-            console.log(result);
+            // console.log(result);
             this.globalData = result;
 
             result.forEach(cs => {
@@ -33,9 +48,44 @@ export class HomeComponent implements OnInit {
               }
 
             });
+
+            this.initChart('c');
           }
         }
       )
   }
 
+  initChart(caseType : string) {
+
+    this.dataTable = [];
+    // this.dataTable.push(["Country", "Cases"]);
+
+    this.globalData.forEach(cs => {
+      let value: number;
+      if(caseType == 'c' )
+        if(cs.confirmed > 500000)
+          value = cs.confirmed;
+
+      if(caseType == 'a')
+        if(cs.active > 200000)
+          value = cs.active;
+
+      if(caseType == 'd')
+        if(cs.deaths > 10000)
+          value = cs.deaths;
+
+      if(caseType == 'r')
+        if(cs.recovered > 1000000)
+          value = cs.recovered;
+
+      this.dataTable.push([ cs.country, value ]);
+    });
+    // console.log(this.dataTable);
+
+    };
+
+  updateChart(input: HTMLInputElement) {
+    console.log(input.value);
+    this.initChart(input.value);
+  }
 }
