@@ -34,12 +34,7 @@ export class DataServiceService {
 
     let todayUrl = this.getDate(this.mm) + '-' + this.getDate(this.dd) + '-' + this.yyyy;
 
-    console.log(todayUrl);
-
-
     this.globalDataUrl = `${this.baseUrl}${todayUrl}${this.extension}`;
-
-
    }
 
   getDateWiseData() {
@@ -104,7 +99,6 @@ export class DataServiceService {
             raw[cs.country] = cs;
           }
         })
-        // console.log(raw);
 
         return <GlobalDataSummary[]>Object.values(raw);
       }),

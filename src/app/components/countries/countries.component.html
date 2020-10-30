@@ -2,49 +2,47 @@
   <div class="ui text loader">Loading</div>
 </div>
 
-<div class="jumbotron bg-light text-center">
-  <h1 class="display-4">Coronavirus Tracker by Countries</h1>
-
+<div class="jumbotron bg-secondary text-center mt-4">
+  <h1 class="display-4">Cases by Countries</h1>
+  <label for="c" class="h3">Select Country</label>
+  <select name="" class="form-control border border-primary" id="c" #input (change)='updateValues(input.value)'>
+    <option value="{{country}}" *ngFor='let country of countries'>{{country}}</option>
+  </select>
   <hr>
-
-  <div class="mx-auto">
-    <div class="form-group col-lg-5 mx-auto">
-      <label for="c">Select Country</label>
-      <select name="" class="form-control" id="c" #input (change)='updateValues(input.value)'>
-        <option value="{{country}}" *ngFor='let country of countries'>{{country}}</option>
-      </select>
-    </div>
-  </div>
   <app-dashboard-card
-      [totalConfirmed] = 'totalConfirmed'
-      [totalActive] = 'totalActive'
-      [totalRecovered] = 'totalRecovered'
-      [totalDeaths] = 'totalDeaths'></app-dashboard-card>
-
-      <div class="row">
-        <div class="col-md-6">
-          <google-chart
-            [type]='chart.LineChart'
-            [data]='dataTable'
-            [height]='chart.height'
-            [options]='chart.options'
-            style="width: 100%"></google-chart>
-        </div>
-        <div class="col-md-6">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Cases</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of selectedCountryData">
-                <td>{{ item.date | date }}</td>
-                <td>{{ item.cases }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+    [totalConfirmed] = 'totalConfirmed'
+    [totalActive] = 'totalActive'
+    [totalRecovered] = 'totalRecovered'
+    [totalDeaths] = 'totalDeaths'>
+  </app-dashboard-card>
 </div>
+
+<div class="container">
+  <google-chart
+    [type]='chart.LineChart'
+    [data]='dataTable'
+    [height]='chart.height'
+    [options]='chart.options'
+    style="width: 100%">
+  </google-chart>
+
+  <table class="table text-black">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Cases</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of selectedCountryData">
+        <td>{{ item.date | date }}</td>
+        <td>{{ item.cases }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<footer class="mt-5 p-3 bg-primary text-center">
+  Covid-19 Tracker &copy;
+</footer>

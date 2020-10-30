@@ -12,15 +12,23 @@ export class HomeComponent implements OnInit {
   totalActive = 0;
   totalDeaths = 0;
   totalRecovered = 0;
-  dataTable = [];
+  dataTable: any = [];
   globalData : GlobalDataSummary[];
   loading = true;
+
+  s: boolean = false;
 
   chart = {
     PieChart : "PieChart",
     ColumnChart : "ColumnChart",
     height: 500,
     options: {
+      hAxis: {
+          title: 'Countries'
+      },
+      vAxis:{
+          title: 'Cases'
+      },
       animation: {
         duration: 1000,
         easing: 'out'
@@ -29,15 +37,13 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
-  constructor(private dataService: DataServiceService) { }
+  constructor(private dataService: DataServiceService) {  }
 
   ngOnInit(): void {
     this.dataService.getGlobalData()
       .subscribe(
         {
           next : (result) => {
-            // console.log(result);
             this.globalData = result;
 
             result.forEach(cs => {
@@ -47,9 +53,11 @@ export class HomeComponent implements OnInit {
                 this.totalDeaths += cs.deaths;
                 this.totalRecovered += cs.recovered
               }
-
             });
-
+            this.totalConfirmed = this.numberWithCommas(this.totalConfirmed);
+            this.totalActive = this.numberWithCommas(this.totalActive);
+            this.totalDeaths = this.numberWithCommas(this.totalDeaths);
+            this.totalRecovered = this.numberWithCommas(this.totalRecovered);
             this.initChart('c');
           },
           complete: () => {
@@ -57,37 +65,49 @@ export class HomeComponent implements OnInit {
           }
         }
       )
+  }
 
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   initChart(caseType : string) {
-
     this.dataTable = [];
-    // this.dataTable.push(["Country", "Cases"]);
+    // Need to fix this - Cannot add first element to be string
+    // this.dataTable.push(['Country', 'Cases']);
 
     this.globalData.forEach(cs => {
       let value: number;
+      let countryName: string;
       if(caseType == 'c' )
-        if(cs.confirmed > 500000)
+        if(cs.confirmed > 1000000){
           value = cs.confirmed;
+          countryName = cs.country;
+          this.dataTable.push([ countryName, value ]);
+        }
 
       if(caseType == 'a')
-        if(cs.active > 200000)
+        if(cs.active > 200000) {
           value = cs.active;
+          countryName = cs.country;
+          this.dataTable.push([ countryName, value ]);
+        }
 
       if(caseType == 'd')
-        if(cs.deaths > 10000)
+        if(cs.deaths > 20000) {
           value = cs.deaths;
+          countryName = cs.country;
+          this.dataTable.push([ countryName, value ]);
+        }
 
       if(caseType == 'r')
-        if(cs.recovered > 1000000)
+        if(cs.recovered > 500000) {
           value = cs.recovered;
-
-      this.dataTable.push([ cs.country, value ]);
+          countryName = cs.country;
+          this.dataTable.push([ countryName, value ]);
+        }
     });
-    // console.log(this.dataTable);
-
-    };
+  };
 
   updateChart(input: HTMLInputElement) {
     console.log(input.value);

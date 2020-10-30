@@ -1,6 +1,8 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CollapseModule  } from 'ngx-bootstrap/collapse';
 import { GoogleChartsModule } from 'angular-google-charts';
 
@@ -27,6 +29,8 @@ import { DashboardCardComponent } from './components/dashboard-card/dashboard-ca
     AppRoutingModule,
     HttpClientModule,
     GoogleChartsModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

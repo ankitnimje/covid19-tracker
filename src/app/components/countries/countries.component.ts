@@ -71,6 +71,7 @@ export class CountriesComponent implements OnInit {
     this.selectedCountryData.forEach(cs => {
       this.dataTable.push([cs.date , cs.cases]);
     });
+    this.selectedCountryData.reverse();
   }
 
   updateValues(country : string){
